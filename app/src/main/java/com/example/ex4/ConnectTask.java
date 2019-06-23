@@ -5,11 +5,12 @@ import android.util.Log;
 
 public class ConnectTask extends AsyncTask<String, String, TcpClient> {
 
-    private TcpClient mTcpClient;
 
     public ConnectTask(TcpClient tcpClient) {
         mTcpClient = tcpClient;
     }
+
+    private TcpClient mTcpClient;
 
     @Override
     protected TcpClient doInBackground(String... message) {

@@ -1,17 +1,19 @@
 package com.example.ex4;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.os.Bundle;
+import android.view.MotionEvent;
 
-import static com.example.ex4.JoystickFunctionality.STICK_DOWN;
 import static com.example.ex4.JoystickFunctionality.STICK_UP;
+import static com.example.ex4.JoystickFunctionality.STICK_DOWN;
+
+
 
 public class JoystickActivity extends AppCompatActivity {
 
+    private boolean moving = false;
     RelativeLayout layout_joystick;
     JoystickFunctionality js;
 
@@ -35,14 +37,17 @@ public class JoystickActivity extends AppCompatActivity {
         js.setLayoutAlpha(150);
         js.setStickAlpha(100);
         js.setOffset(110);
-        js.setMinimumDistance(50);
+        js.setMinDistance(50);
         js.playJoystick();
         layout_joystick.setOnTouchListener(new View.OnTouchListener() {
+
+
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 js.drawStick(arg1);
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-//
+                    moving = true;
+
                     int direction = js.get8Direction();
                     if (direction == STICK_UP) {
                     } else if (direction == JoystickFunctionality.STICK_UPRIGHT) {
@@ -55,16 +60,18 @@ public class JoystickActivity extends AppCompatActivity {
                     } else if (direction == JoystickFunctionality.STICK_NONE) {
                     }
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
-//
+                    moving = false;
                 }
-                int direction1 = js.get4Direction();
-                sendData(js.getX(), js.getY(), direction1);
+                int direction1 = js.getAllDirections();
+                sendJoysData(js.getX(), js.getY(), direction1);
                 return true;
             }
         });
     }
 
-    public void sendData(float x, float y, int direction) {
+
+
+    public void sendJoysData(float x, float y, int direction) {
 
         if ((direction == 1) || (direction == 5)) {
 
